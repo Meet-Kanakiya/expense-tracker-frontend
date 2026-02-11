@@ -1,0 +1,388 @@
+/* ===== Expense Page Wrapper ===== */
+.expense-page {
+  max-width: 900px;                               
+  /* margin: auto;w */
+  margin-left: 100px;
+}
+
+/* ===== Title ===== */
+.expense-page h2 {
+  margin-bottom: 10px;
+  font-size: 26px;
+  color: #1e3c72;
+}
+
+/* ===== Form Card ===== */
+.expense-form {
+  background: white;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  margin-bottom: 30px;
+}
+
+/* ===== Inputs ===== */
+.expense-form input,
+.expense-form select {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.expense-form input:focus,
+.expense-form select:focus {
+  outline: none;
+  border-color: #2a5298;
+}
+
+/* ===== Buttons ===== */
+.expense-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.expense-actions button {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  cursor: pointer;
+  color: white;
+}
+
+/* ===== Add Expense Button ===== */
+.add-btn {
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  color: #ffffff;
+  padding: 12px 22px;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 6px 18px rgba(30, 60, 114, 0.35);
+}
+
+.add-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(30, 60, 114, 0.45);
+}
+
+.add-btn:active {
+  transform: scale(0.97);
+}
+
+
+.logout-btn {
+  background: #ff4d4d;
+}
+
+/* ===== Expense List ===== */
+
+.expense-list-h3 {
+  margin-bottom: 20px;
+  font-size: 26px;
+  color: #1e3c72;
+  margin-bottom: 15px;
+}
+
+.expense-list {
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+.expense-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.expense-item:last-child {
+  border-bottom: none;
+}
+
+.expense-item span {
+  font-size: 14px;
+}
+
+.delete-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* ===== Summary Cards ===== */
+.summary {
+  margin-top: 25px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.summary-card {
+  background: white;
+  padding: 18px;
+  border-radius: 14px;
+  text-align: center;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+.summary-card h4 {
+  margin-bottom: 8px;
+  color: #555;
+}
+
+.summary-card p {
+  font-size: 18px;
+  font-weight: bold;
+  color: #1e3c72;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  .expense-actions {
+    flex-direction: column;
+  }
+}
+
+/* ===== Expense Row ===== */
+.expense-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  border-bottom: 1px solid #eee;
+  transition: background 0.2s ease;
+}
+
+.expense-item:hover {
+  background: #f6f9ff;
+}
+
+/* ===== Expense Text ===== */
+.expense-text {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/* Income / Expense Color */
+.expense-text.income {
+  color: #2ecc71; /* green */
+}
+
+.expense-text.expense {
+  color: #e74c3c; /* red */
+}
+
+/* ===== Delete Button ===== */
+.delete-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: #ffe5e5;
+  color: #e74c3c;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.delete-btn:hover {
+  background: #e74c3c;
+  color: white;
+  transform: scale(1.1);
+}
+
+/*change or update expense.css that remove up code display*/
+
+.expense-table-wrapper {
+  margin-top: 20px;
+  overflow-x: auto;
+}
+
+.expense-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.expense-table th,
+.expense-table td {
+  padding: 12px 14px;
+  text-align: left;
+}
+
+.expense-table thead {
+  background: linear-gradient(90deg, #1e3c72, #2a5298);
+  color: #fff;
+}
+
+.expense-table tr {
+  border-bottom: 1px solid #eee;
+}
+
+.expense-table tr:hover {
+  background-color: #f5f9ff;
+}
+
+.no-data {
+  text-align: center;
+  padding: 20px;
+  color: #777;
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  text-transform: capitalize;
+}
+
+.badge.income {
+  background: #e6f9f0;
+  color: #0a8754;
+}
+
+.badge.expense {
+  background: #ffecec;
+  color: #d72638;
+}
+
+.delete-btn {
+  background: #ff4d4f;
+  border: none;
+  color: white;
+  padding: 6px 30px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background: #d9363e;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .expense-table th,
+  .expense-table td {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+/*that edit expense*/
+/* ===== Edit Button ===== */
+/* Action buttons container */
+.action-btns {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Edit button (already given, just safe repeat) */
+.edit-btn {
+  background: #edf3ff;
+  color: #1e3c72;
+  border: 1px solid #c6d6ff;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Delete button */
+.delete-btn {
+  background: #ff4d4f;
+  color: white;
+  border: none;
+  padding: 6px 30px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* ===== MODAL FIX ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal-box {
+  background: #ffffff;
+  width: 320px;
+  padding: 22px;
+  border-radius: 14px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+  animation: scaleIn 0.25s ease;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.modal-box h3 {
+  text-align: center;
+  color: #1e3c72;
+  margin-bottom: 15px;
+}
+
+.modal-box input,
+.modal-box select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.update-btn {
+  flex: 1;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  flex: 1;
+  background: #e0e0e0;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}

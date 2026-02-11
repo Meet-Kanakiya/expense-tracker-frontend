@@ -1,0 +1,95 @@
+.home{
+  padding:30px;
+  background:#f1f5f9;
+  min-height:auto;
+}
+*{
+  transition:all 0.2s ease;
+}
+/* welcome */
+.welcome{
+  margin-bottom:30px;
+  color:#1e3c72;
+}
+
+/* cards */
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:25px;
+  margin-top:30px;
+}
+
+.card{
+  padding:28px;
+  border-radius:18px;
+  background:white;
+  box-shadow:0 10px 30px rgba(0,0,0,0.05);
+  transition:0.25s;
+}
+
+.card:hover{
+  transform:translateY(-6px);
+}
+
+.balance{
+  background:linear-gradient(135deg,#1e3a8a,#2563eb);
+  color:white;
+}
+
+.income{
+  background:#ecfdf5;
+  color:#16a34a;
+}
+
+.expense{
+  background:#fef2f2;
+  color:#dc2626;
+}
+.recent-item h4{
+  padding: 10px;
+}
+
+
+/* recent */
+
+.recent{
+  margin-top:40px;
+  background:white;
+  padding:30px;
+  border-radius:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.05);
+}
+
+.recent-item{
+  display:flex;
+  justify-content:space-between;
+  padding:14px 0;
+  border-bottom:1px solid #eee;
+}
+
+.recent-item:last-child{
+  border:none;
+}
+
+
+.income{
+  color:#16a085;
+}
+
+.expense{
+  color:#e74c3c;
+}
+
+/* mobile */
+
+@media(max-width:768px){
+  .home{
+    padding:20px;
+  }
+}
+.card:hover{
+  transform:translateY(-6px);
+}
+
