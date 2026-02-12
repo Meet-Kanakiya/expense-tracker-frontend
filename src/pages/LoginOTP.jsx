@@ -17,7 +17,7 @@ function LoginOTP({ setToken, setPage }) {
     setMessage("");
 
     try {
-      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/login`,{
+      const res = await axios.post("process.env.REACT_APP_API_URL/api/login",{
         email,
         password,
       });
@@ -38,7 +38,7 @@ function LoginOTP({ setToken, setPage }) {
     setMessage("");
 
     try {
-      const res = await axios.post("http://localhost:5000/api/verify-otp", {
+      const res = await axios.post("process.env.REACT_APP_API_URL/api/verify-otp", {
         email,
         otp,
       });

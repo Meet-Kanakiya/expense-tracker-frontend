@@ -9,13 +9,13 @@ export default function Home() {
 
   
   const fetchExpenses = useCallback(async () => {
-    const res = await axios.get(`${import.meta.env.VITE_API_URL}/expenses`, {
+    const res = await axios.get("process.env.REACT_APP_API_URL/expenses", {
       headers: { Authorization: `Bearer ${token}` },
     });
     
     setExpense(res.data);
   },[token]);
-  
+
   useEffect(() => {
     fetchExpenses();
   }, [fetchExpenses]);

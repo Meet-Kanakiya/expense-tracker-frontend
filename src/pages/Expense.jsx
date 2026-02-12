@@ -18,7 +18,7 @@ export default function Expense() {
 
     // ================= FETCH =================
     const fetchExpenses = useCallback(async () => {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/expenses`, {
+        const res = await axios.get("process.env.REACT_APP_API_URL/expenses", {
             headers: { Authorization: `Bearer ${token}` },
         });
         setExpense(res.data);
@@ -32,7 +32,7 @@ export default function Expense() {
     const addExpense = async (e) => {
         e.preventDefault();
         await axios.post(
-            `${import.meta.env.VITE_API_URL}/add-expense`,
+            "process.env.REACT_APP_API_URL/add-expense",
             { title, amount: Number(amount), category, type },
             { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -42,7 +42,7 @@ export default function Expense() {
 
     // ================= DELETE =================
     const deleteExpense = async (id) => {
-        await axios.delete(`${import.meta.env.VITE_API_URL}/expense/${id}`, {
+        await axios.delete("process.env.REACT_APP_API_URL/expense/${id}", {
             headers: { Authorization: `Bearer ${token}` },
         });
         fetchExpenses();
@@ -61,7 +61,7 @@ export default function Expense() {
     const updateExpense = async (e) => {
         e.preventDefault();
         await axios.put(
-            `${import.meta.env.VITE_API_URL}/expense/${editId}`,
+            "process.env.REACT_APP_API_URL/expense/${editId}",
             { title, amount: Number(amount), category, type },
             { headers: { Authorization: `Bearer ${token}` } }
         );
