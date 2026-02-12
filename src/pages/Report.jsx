@@ -34,7 +34,7 @@ export default function Report() {
       headers: { Authorization: `Bearer ${token}` },
     });
     setExpense(res.data);
-  });
+  },[]);
   // const expenseList = JSON.parse(localStorage.getItem("expense")) || [];
 
   const totalExpense = expense

@@ -17,7 +17,7 @@ export default function Home() {
     });
 
     setExpense(res.data);
-  });
+  },[]);
 
   // ✅ Calculations
   const totalIncome = expense
