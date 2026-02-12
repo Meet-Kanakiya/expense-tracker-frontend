@@ -33,7 +33,7 @@ export default function Report() {
       headers: { Authorization: `Bearer ${token}` },
     });
     setExpense(res.data);
-  },[]);
+  },[token]);
   
   useEffect(() => {
     fetchExpenses();
