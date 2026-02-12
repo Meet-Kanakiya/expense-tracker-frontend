@@ -3,19 +3,21 @@ import axios from "axios";
 import "../css/Home.css";
 
 export default function Home() {
-
+  
+  const API = process.env.REACT_APP_API_URL;
+  
   const [expense, setExpense] = useState([]);
   const token = localStorage.getItem("token");
 
   
   const fetchExpenses = useCallback(async () => {
-    const res = await axios.get("process.env.REACT_APP_API_URL/expenses", {
+    const res = await axios.get(`${API}/expenses`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     
     setExpense(res.data);
   },[token]);
-
+  
   useEffect(() => {
     fetchExpenses();
   }, [fetchExpenses]);

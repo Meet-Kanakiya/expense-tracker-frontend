@@ -4,6 +4,9 @@ import "../css/Expense.css";
 
 
 export default function Expense() {
+    
+    const API = process.env.REACT_APP_API_URL;    
+      
     const [title, setTitle] = useState("");
     const [amount, setAmount] = useState("");
     const [category, setCategory] = useState("");
@@ -18,7 +21,7 @@ export default function Expense() {
 
     // ================= FETCH =================
     const fetchExpenses = useCallback(async () => {
-        const res = await axios.get("process.env.REACT_APP_API_URL/expenses", {
+        const res = await axios.get(`${API}/expenses`, {
             headers: { Authorization: `Bearer ${token}` },
         });
         setExpense(res.data);
@@ -32,7 +35,7 @@ export default function Expense() {
     const addExpense = async (e) => {
         e.preventDefault();
         await axios.post(
-            "process.env.REACT_APP_API_URL/add-expense",
+            `${API}/add-expense`,
             { title, amount: Number(amount), category, type },
             { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -42,7 +45,7 @@ export default function Expense() {
 
     // ================= DELETE =================
     const deleteExpense = async (id) => {
-        await axios.delete("process.env.REACT_APP_API_URL/expense/${id}", {
+        await axios.delete(`${API}/expense/${id}`, {
             headers: { Authorization: `Bearer ${token}` },
         });
         fetchExpenses();
@@ -61,7 +64,7 @@ export default function Expense() {
     const updateExpense = async (e) => {
         e.preventDefault();
         await axios.put(
-            "process.env.REACT_APP_API_URL/expense/${editId}",
+            `${API}/expense/${editId}`,
             { title, amount: Number(amount), category, type },
             { headers: { Authorization: `Bearer ${token}` } }
         );

@@ -18,6 +18,8 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import "../css/Report.css";
 
+const API = process.env.REACT_APP_API_URL;
+
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#A28EFF"];
 
 export default function Report() {
@@ -27,7 +29,7 @@ export default function Report() {
 
   
   const fetchExpenses = useCallback(async () => {
-    const res = await axios.get("process.env.REACT_APP_API_URL/expenses", {
+    const res = await axios.get(`${API}/expenses`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     setExpense(res.data);
