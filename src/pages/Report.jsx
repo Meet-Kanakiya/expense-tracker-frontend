@@ -25,16 +25,17 @@ export default function Report() {
   const token = localStorage.getItem("token");
   const chartRef = useRef();
 
-  useEffect(() => {
-    fetchExpenses();
-  }, [fetchExpenses]);
-
+  
   const fetchExpenses = useCallback(async () => {
     const res = await axios.get(`${import.meta.env.VITE_API_URL}/expenses`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     setExpense(res.data);
-  },[]);
+  },[token]);
+
+  useEffect(() => {
+    fetchExpenses();
+  }, [fetchExpenses]);
   // const expenseList = JSON.parse(localStorage.getItem("expense")) || [];
 
   const totalExpense = expense

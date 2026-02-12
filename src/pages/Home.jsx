@@ -7,18 +7,18 @@ export default function Home() {
   const [expense, setExpense] = useState([]);
   const token = localStorage.getItem("token");
 
-  useEffect(() => {
-    fetchExpenses();
-  }, [fetchExpenses]);
-
+  
   const fetchExpenses = useCallback(async () => {
     const res = await axios.get(`${import.meta.env.VITE_API_URL}/expenses`, {
       headers: { Authorization: `Bearer ${token}` },
     });
-
+    
     setExpense(res.data);
-  },[]);
-
+  },[token]);
+  
+  useEffect(() => {
+    fetchExpenses();
+  }, [fetchExpenses]);
   // ✅ Calculations
   const totalIncome = expense
     .filter(e => e.type === "income")

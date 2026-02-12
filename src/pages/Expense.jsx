@@ -22,7 +22,7 @@ export default function Expense() {
             headers: { Authorization: `Bearer ${token}` },
         });
         setExpense(res.data);
-    },[]);
+    },[token]);
 
     useEffect(() => {
         fetchExpenses();
