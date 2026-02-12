@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState ,useCallback } from "react";
 import axios from "axios";
 import "../css/Expense.css";
 
@@ -17,16 +17,16 @@ export default function Expense() {
     const token = localStorage.getItem("token");
 
     // ================= FETCH =================
-    const fetchExpenses = async () => {
+    const fetchExpenses = useCallback(async () => {
         const res = await axios.get(`${import.meta.env.VITE_API_URL}/expenses`, {
             headers: { Authorization: `Bearer ${token}` },
         });
         setExpense(res.data);
-    };
+    });
 
     useEffect(() => {
         fetchExpenses();
-    }, []);
+    }, [fetchExpenses]);
 
     // ================= ADD =================
     const addExpense = async (e) => {

@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useCallback ,useState, useRef } from "react";
 import axios from "axios";
 import {
   PieChart,
@@ -27,14 +27,14 @@ export default function Report() {
 
   useEffect(() => {
     fetchExpenses();
-  }, []);
+  }, [fetchExpenses]);
 
-  const fetchExpenses = async () => {
+  const fetchExpenses = useCallback(async () => {
     const res = await axios.get(`${import.meta.env.VITE_API_URL}/expenses`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     setExpense(res.data);
-  };
+  });
   // const expenseList = JSON.parse(localStorage.getItem("expense")) || [];
 
   const totalExpense = expense

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState ,useCallback} from "react";
 import axios from "axios";
 import "../css/Home.css";
 
@@ -9,15 +9,15 @@ export default function Home() {
 
   useEffect(() => {
     fetchExpenses();
-  }, []);
+  }, [fetchExpenses]);
 
-  const fetchExpenses = async () => {
+  const fetchExpenses = useCallback(async () => {
     const res = await axios.get(`${import.meta.env.VITE_API_URL}/expenses`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
     setExpense(res.data);
-  };
+  });
 
   // ✅ Calculations
   const totalIncome = expense
