@@ -4,14 +4,12 @@ import "../css/Home.css";
 
 export default function Home() {
 
-  const API = process.env.REACT_APP_API_URL;
-
   const [expense, setExpense] = useState([]);
   const token = localStorage.getItem("token");
 
   
   const fetchExpenses = useCallback(async () => {
-    const res = await axios.get(`${API}/expenses`, {
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/expenses`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     
@@ -21,6 +19,7 @@ export default function Home() {
   useEffect(() => {
     fetchExpenses();
   }, [fetchExpenses]);
+
   // ✅ Calculations
   const totalIncome = expense
     .filter(e => e.type === "income")
