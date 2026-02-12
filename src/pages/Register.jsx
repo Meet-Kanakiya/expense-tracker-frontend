@@ -87,8 +87,7 @@ import "../css/Register.css";
 
 export default function Register({ setToken, setPage }) {
 
-  const API = process.env.REACT_APP_API_URL;
-  
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -105,7 +104,7 @@ export default function Register({ setToken, setPage }) {
       //   password,
       // });
 
-      const res = await axios.post(`${API}/register`, {
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}/register`, {
         name,
         email,
         password,

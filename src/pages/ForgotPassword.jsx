@@ -4,8 +4,6 @@ import "../css/LoginOTP.css";
 
 function ForgotPassword({ setPage }) {
 
-  const API = process.env.REACT_APP_API_URL;
-  
   const [step, setStep] = useState(1);
 
   const [email, setEmail] = useState("");
@@ -24,7 +22,7 @@ function ForgotPassword({ setPage }) {
 
     try {
       const res = await axios.post(
-        `${API}/api/forgot-password`,
+        `${process.env.REACT_APP_API_URL}/api/forgot-password`,
         { email }
       );
       setMsg(res.data.message);
@@ -44,7 +42,7 @@ function ForgotPassword({ setPage }) {
 
     try {
       await axios.post(
-        `${API}/api/verify-forgot-otp`,
+        `${process.env.REACT_APP_API_URL}/api/verify-forgot-otp`,
         { email, otp }
       );
       setStep(3);
@@ -63,7 +61,7 @@ function ForgotPassword({ setPage }) {
 
     try {
       await axios.post(
-        `${API}/api/reset-password`,
+        `${process.env.REACT_APP_API_URL}/api/reset-password`,
         {
           email,
           newPassword,

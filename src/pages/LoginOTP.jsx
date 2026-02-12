@@ -10,8 +10,6 @@ function LoginOTP({ setToken, setPage }) {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  const API = process.env.REACT_APP_API_URL;
-
   // STEP 1: Email + Password
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -19,7 +17,7 @@ function LoginOTP({ setToken, setPage }) {
     setMessage("");
 
     try {
-      const res = await axios.post(`${API}/api/login`,{
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/login`,{
         email,
         password,
       });
@@ -40,7 +38,7 @@ function LoginOTP({ setToken, setPage }) {
     setMessage("");
 
     try {
-      const res = await axios.post(`${API}/api/verify-otp`, {
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/verify-otp`, {
         email,
         otp,
       });
