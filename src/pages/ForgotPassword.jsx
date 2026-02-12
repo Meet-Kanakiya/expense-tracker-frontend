@@ -12,6 +12,8 @@ function ForgotPassword({ setPage }) {
   const [msg, setMsg] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const API = process.env.REACT_APP_API_URL;
+
   // STEP 1 – SEND OTP
   const sendOTP = async (e) => {
     e.preventDefault();
@@ -20,7 +22,7 @@ function ForgotPassword({ setPage }) {
 
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/forgot-password`,
+        `${API}/api/forgot-password`,
         { email }
       );
       setMsg(res.data.message);
@@ -40,7 +42,7 @@ function ForgotPassword({ setPage }) {
 
     try {
       await axios.post(
-        "http://localhost:5000/api/verify-forgot-otp",
+        `${API}/api/verify-forgot-otp`,
         { email, otp }
       );
       setStep(3);
@@ -59,7 +61,7 @@ function ForgotPassword({ setPage }) {
 
     try {
       await axios.post(
-        "http://localhost:5000/api/reset-password",
+        `${API}/api/reset-password`,
         {
           email,
           newPassword,

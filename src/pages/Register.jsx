@@ -91,6 +91,8 @@ export default function Register({ setToken, setPage }) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+  const API = process.env.REACT_APP_API_URL;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -102,7 +104,7 @@ export default function Register({ setToken, setPage }) {
       //   password,
       // });
 
-      const res = await axios.post(`${import.meta.env.VITE_API_URL}/register`, {
+      const res = await axios.post(`${API}/register`, {
         name,
         email,
         password,
