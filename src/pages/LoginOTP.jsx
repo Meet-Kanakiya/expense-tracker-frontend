@@ -30,7 +30,7 @@ function LoginOTP({ setToken, setPage }) {
       setLoading(false);
     }
   };
-
+  
   // STEP 2: Verify OTP
   const handleVerifyOTP = async (e) => {
     e.preventDefault();
