@@ -13,6 +13,7 @@ function LoginOTP({ setToken, setPage }) {
   // STEP 1: Email + Password
   const handleLogin = async (e) => {
     e.preventDefault();
+    console.log("API URL:", process.env.REACT_APP_API_URL);
     setLoading(true);
     setMessage("");
 
