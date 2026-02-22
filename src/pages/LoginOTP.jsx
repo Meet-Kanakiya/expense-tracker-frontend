@@ -3,7 +3,7 @@ import axios from "axios";
 import "../css/LoginOTP.css";
 
 function LoginOTP({ setToken, setPage }) {
-  const [step, setStep] = useState(1); // 1 = login, 2 = otp
+  const [step, setStep] = useState(1); 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [otp, setOtp] = useState("");
