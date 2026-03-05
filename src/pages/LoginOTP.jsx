@@ -31,14 +31,12 @@ function LoginOTP({ setToken }) {
     setMessage("");
 
     try {
-      const res = await axios.post(
+       await axios.post(
         `${process.env.REACT_APP_API_URL}/api/login`,
         { email, password }
       );
 
-      setMessage(
-        "📩 OTP sent to your email. Please check Inbox or Spam folder."
-      );
+      setMessage("📩 OTP sent to your email. Please check Inbox or Spam folder.");
       setStep(2);
       setTimer(30);
     } catch (err) {
