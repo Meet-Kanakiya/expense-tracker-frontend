@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -9,10 +9,22 @@ function LoginOTP({ setToken }) {
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [timer, setTimer] = useState(30);
 
   const navigate = useNavigate();
 
-  // STEP 1: Email + Password
+  // OTP resend timer
+  useEffect(() => {
+    let interval;
+    if (step === 2 && timer > 0) {
+      interval = setInterval(() => {
+        setTimer((prev) => prev - 1);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [step, timer]);
+
+  // STEP 1: Login
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -24,8 +36,11 @@ function LoginOTP({ setToken }) {
         { email, password }
       );
 
-      setMessage(res.data.message || "OTP sent to your email");
+      setMessage(
+        "📩 OTP sent to your email. Please check Inbox or Spam folder."
+      );
       setStep(2);
+      setTimer(30);
     } catch (err) {
       setMessage(err.response?.data?.message || "Login failed");
     } finally {
@@ -55,6 +70,27 @@ function LoginOTP({ setToken }) {
     }
   };
 
+  // Resend OTP
+  const handleResendOTP = async () => {
+    try {
+      setLoading(true);
+
+      await axios.post(`${process.env.REACT_APP_API_URL}/api/login`, {
+        email,
+        password,
+      });
+
+      setMessage(
+        "📩 New OTP sent. Check Inbox or Spam folder."
+      );
+      setTimer(30);
+    } catch (err) {
+      setMessage("Failed to resend OTP");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center px-4 bg-gradient-to-br from-indigo-100 via-white to-slate-100">
 
@@ -65,7 +101,7 @@ function LoginOTP({ setToken }) {
         </h1>
 
         {message && (
-          <p className="text-sm text-center mb-4 text-amber-600">
+          <p className="text-sm text-center mb-4 text-indigo-600">
             {message}
           </p>
         )}
@@ -107,59 +143,60 @@ function LoginOTP({ setToken }) {
           )}
 
           {step === 2 && (
-            <div>
-              <label className="block text-sm font-medium text-slate-600 mb-1">
-                Enter OTP
-              </label>
-              <input
-                type="text"
-                maxLength="6"
-                className="w-full px-4 py-2 border rounded-lg text-center tracking-widest text-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none"
-                placeholder="------"
-                value={otp}
-                onChange={(e) => setOtp(e.target.value)}
-                required
-              />
-            </div>
+            <>
+              <div>
+                <label className="block text-sm font-medium text-slate-600 mb-1">
+                  Enter OTP
+                </label>
+                <input
+                  type="text"
+                  maxLength="6"
+                  className="w-full px-4 py-2 border rounded-lg text-center tracking-widest text-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+                  placeholder="------"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  required
+                />
+              </div>
+
+              <p className="text-xs text-gray-500 text-center">
+                If you don't see the email in your Inbox, please check your
+                Spam or Junk folder.
+              </p>
+            </>
           )}
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2.5 flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+            className="w-full py-2.5 flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition duration-200 disabled:opacity-60"
           >
-            {loading && (
-              <svg
-                className="animate-spin h-5 w-5 text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                ></circle>
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8v8H4z"
-                ></path>
-              </svg>
-            )}
-
             {loading
               ? step === 1
                 ? "Sending OTP..."
                 : "Verifying..."
               : step === 1
-                ? "Login"
-                : "Verify OTP"}
+              ? "Login"
+              : "Verify OTP"}
           </button>
         </form>
+
+        {step === 2 && (
+          <div className="text-center mt-4">
+            {timer > 0 ? (
+              <p className="text-sm text-gray-500">
+                Resend OTP in {timer}s
+              </p>
+            ) : (
+              <button
+                onClick={handleResendOTP}
+                className="text-indigo-600 hover:underline text-sm"
+              >
+                Resend OTP
+              </button>
+            )}
+          </div>
+        )}
 
         {step === 1 && (
           <div className="flex justify-between mt-5 text-sm">
