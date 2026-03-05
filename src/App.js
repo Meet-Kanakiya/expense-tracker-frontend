@@ -1,28 +1,58 @@
-import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import LoginOTP from "./pages/LoginOTP";
 import ForgotPassword from "./pages/ForgotPassword";
 
 function App() {
-  const [token, setToken] = useState(localStorage.getItem("token"));
-  const [page, setPage] = useState("login");
+  const [token, setToken] = useState(null);
 
-  if (!token) {
-    if (page === "login") {
-      return <LoginOTP setToken={setToken} setPage={setPage} />;
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) {
+      setToken(storedToken);
     }
+  }, []);
 
-    if (page === "register") {
-      return <Register setToken={setToken} setPage={setPage} />;
-    }
+  return (
+    <Router>
+      <div className="min-h-screen bg-gradient-to-br from-indigo-100 to-slate-100">
+        <Routes>
+          
+          {/* Public Routes */}
+          <Route
+            path="/login"
+            element={<LoginOTP setToken={setToken} />}
+          />
+          <Route
+            path="/register"
+            element={<Register setToken={setToken} />}
+          />
+          <Route
+            path="/forgot"
+            element={<ForgotPassword />}
+          />
 
-    if (page === "forgot") {
-      return <ForgotPassword setPage={setPage} />;
-    }
-  }
+          {/* Protected Route */}
+          <Route
+            path="/dashboard"
+            element={
+              token ? <Dashboard /> : <Navigate to="/login" />
+            }
+          />
 
-  return <Dashboard />;
+          {/* Default Redirect */}
+          <Route
+            path="*"
+            element={<Navigate to={token ? "/dashboard" : "/login"} />}
+          />
+
+        </Routes>
+      </div>
+    </Router>
+  );
 }
 
 export default App;

@@ -1,219 +1,147 @@
-import { useEffect, useCallback ,useState, useRef } from "react";
+import { useEffect, useCallback, useState, useRef } from "react";
 import axios from "axios";
 import {
-  PieChart,
-  Pie,
-  Cell,
-  Tooltip,
-  ResponsiveContainer,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Legend,
-  LabelList
+  PieChart, Pie, Cell, Tooltip, ResponsiveContainer,
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend, LabelList
 } from "recharts";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import { FaFileImage, FaFilePdf, FaWallet, FaChartLine, FaArrowTrendUp } from "react-icons/fa6";
 import "../css/Report.css";
 
-
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#A28EFF"];
+// Professional Color Palette
+const COLORS = ["#1e3c72", "#2a5298", "#74b9ff", "#a29bfe", "#ffeaa7", "#fab1a0"];
 
 export default function Report() {
   const [expense, setExpense] = useState([]);
   const token = localStorage.getItem("token");
   const chartRef = useRef();
 
-  
   const fetchExpenses = useCallback(async () => {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/expenses`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    setExpense(res.data);
-  },[token]);
-  
-  useEffect(() => {
-    fetchExpenses();
-  }, [fetchExpenses]);
-  // const expenseList = JSON.parse(localStorage.getItem("expense")) || [];
+    try {
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/expenses`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setExpense(res.data);
+    } catch (err) {
+      console.error("Fetch error:", err);
+    }
+  }, [token]);
 
-  const totalExpense = expense
-    .filter(e => e.type === "expense")
-    .reduce((acc, curr) => acc + Number(curr.amount), 0);
+  useEffect(() => { fetchExpenses(); }, [fetchExpenses]);
 
-  const totalIncome = expense
-    .filter(e => e.type === "income")
-    .reduce((acc, curr) => acc + Number(curr.amount), 0);
-
+  // Core Metrics
+  const totalIncome = expense.filter(e => e.type === "income").reduce((s, e) => s + Number(e.amount), 0);
+  const totalExpense = expense.filter(e => e.type === "expense").reduce((s, e) => s + Number(e.amount), 0);
   const balance = totalIncome - totalExpense;
+  const savingsRate = totalIncome > 0 ? ((balance / totalIncome) * 100).toFixed(1) : 0;
 
-  const pieData = expense
-    .filter((e) => e.type === "expense")
-    .map((e) => ({
-      name: e.title,
-      value: Number(e.amount),
-    }))
-    .sort((a, b) => b.value - a.value);
+  // Data for Category Pie Chart
+  const categoryData = Object.values(
+    expense.filter(e => e.type === "expense").reduce((acc, { category, amount }) => {
+      acc[category] = { name: category, value: (acc[category]?.value || 0) + Number(amount) };
+      return acc;
+    }, {})
+  ).sort((a, b) => b.value - a.value);
 
+  // Data for Comparison Bar Chart
+  const comparisonData = [
+    { name: "Income", amount: totalIncome, fill: "#52c41a" },
+    { name: "Expense", amount: totalExpense, fill: "#ff4d4f" }
+  ];
 
-  const barData = expense
-    .filter((e) => e.type === "expense")
-    .map((e) => ({
-      name: e.title,
-      amount: Number(e.amount),
-    }));
-
-  /* ===== EXPORT AS IMAGE ===== */
-  const exportImage = async () => {
-    const canvas = await html2canvas(chartRef.current);
-    const link = document.createElement("a");
-    link.download = "expense-report.png";
-    link.href = canvas.toDataURL();
-    link.click();
-  };
-
-  /* ===== EXPORT AS PDF ===== */
-  const exportPDF = async () => {
-    const canvas = await html2canvas(chartRef.current);
-    const imgData = canvas.toDataURL("image/png");
-    const pdf = new jsPDF("p", "mm", "a4");
-
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-
-    pdf.addImage(imgData, "PNG", 0, 10, pdfWidth, pdfHeight);
-    pdf.save("expense-report.pdf");
-  };
-  const cardStyle = {
-    background: "#ffffff",
-    padding: "20px",
-    borderRadius: "12px",
-    boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
-    textAlign: "center"
+  const handleExport = async (type) => {
+    const canvas = await html2canvas(chartRef.current, { scale: 2, backgroundColor: "#f8fafc" });
+    if (type === 'png') {
+      const link = document.createElement("a");
+      link.download = "Financial-Analysis.png";
+      link.href = canvas.toDataURL();
+      link.click();
+    } else {
+      const pdf = new jsPDF("p", "mm", "a4");
+      const imgData = canvas.toDataURL("image/png");
+      const width = pdf.internal.pageSize.getWidth();
+      const height = (canvas.height * width) / canvas.width;
+      pdf.addImage(imgData, "PNG", 0, 10, width, height);
+      pdf.save("Financial-Report.pdf");
+    }
   };
 
   return (
-
-    <div className="report-page">
+    <div className="report-container">
       <div className="report-header">
-
-        <h2>Expense Analytics</h2>
-        <div className="export-btns">
-          <button onClick={exportImage}>Export Image</button>
-          <button onClick={exportPDF}>Export PDF</button>
+        <div>
+          <h1>Financial Analytics</h1>
+          <p className="date-sub">Performance Overview & Insights</p>
+        </div>
+        <div className="btn-group">
+          <button className="export-btn outline" onClick={() => handleExport('png')}><FaFileImage /> Save PNG</button>
+          <button className="export-btn solid" onClick={() => handleExport('pdf')}><FaFilePdf /> Export PDF</button>
         </div>
       </div>
 
-      <div style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(220px,1fr))",
-        gap: "20px",
-        marginBottom: "30px"
-      }}>
-
-        {/* Expense */}
-        <div style={cardStyle}>
-          <h3>Total Expense</h3>
-          <h2 style={{ color: "#ff4d4f" }}>₹{totalExpense}</h2>
+      <div className="metrics-grid">
+        <div className="metric-card main">
+          <div className="metric-icon"><FaWallet /></div>
+          <div className="metric-info">
+            <span>Net Balance</span>
+            <h2>₹{balance.toLocaleString()}</h2>
+          </div>
         </div>
-
-        {/* Income */}
-        <div style={cardStyle}>
-          <h3>Total Income</h3>
-          <h2 style={{ color: "#52c41a" }}>₹{totalIncome}</h2>
+        <div className="metric-card">
+          <span>Income</span>
+          <h3 className="text-success">₹{totalIncome.toLocaleString()}</h3>
         </div>
-
-        {/* Balance */}
-        <div style={cardStyle}>
-          <h3>Balance</h3>
-          <h2 style={{ color: "#1677ff" }}>₹{balance}</h2>
+        <div className="metric-card">
+          <span>Expenses</span>
+          <h3 className="text-danger">₹{totalExpense.toLocaleString()}</h3>
         </div>
-
+        <div className="metric-card highlight">
+          <span>Savings Rate</span>
+          <h3><FaArrowTrendUp /> {savingsRate}%</h3>
+        </div>
       </div>
 
-      <div ref={chartRef}>
-
-        <div className="chart-grid">
-          {/* PIE CHART */}
-          <div className="chart-card">
-            <h3>Income vs Expense</h3>
-            <ResponsiveContainer width="100%" height={350}>
-              <PieChart>
-                <Pie
-                  data={pieData}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={70}
-                  outerRadius={120}
-                  dataKey="value"
-                  label={({ name, percent }) =>
-                    `${name} ${(percent * 100).toFixed(0)}%`
-                  }
-                >
-                  {pieData.map((entry, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={COLORS[index % COLORS.length]}
-                    />
-                  ))}
-
-                  <text
-                    x="50%"
-                    y="50%"
-                    textAnchor="middle"
-                    dominantBaseline="middle"
-                    style={{ fontSize: "18px", fontWeight: "600" }}
-                  >
-                    ₹{totalExpense}
-                  </text>
-
-                </Pie>
-
-                <Tooltip />
-                <Legend />
-              </PieChart>
-            </ResponsiveContainer>
+      <div ref={chartRef} className="analytics-body">
+        <div className="chart-layout">
+          {/* CATEGORY ANALYSIS */}
+          <div className="viz-card">
+            <div className="card-head">
+              <FaChartLine />
+              <h3>Spending by Category</h3>
+            </div>
+            <div className="chart-holder">
+              <ResponsiveContainer width="100%" height={300}>
+                <PieChart>
+                  <Pie data={categoryData} innerRadius={70} outerRadius={100} paddingAngle={5} dataKey="value">
+                    {categoryData.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
+                  </Pie>
+                  <Tooltip borderRadius={8} />
+                  <Legend iconType="circle" />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
           </div>
 
-          {/* BAR CHART */}
-          <div className="chart-card">
-            <h3>Expense Breakdown (Item wise)</h3>
-
-            <ResponsiveContainer width="100%" height={320}>
-              <BarChart
-                data={barData}
-                barSize={45}
-                margin={{ top: 30, right: 20, left: 0, bottom: 10 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" stroke="#e6e6e6" />
-
-                <XAxis
-                  dataKey="name"
-                  tick={{ fontSize: 13 }}
-                />
-
-                <YAxis />
-
-                <Tooltip
-                  cursor={{ fill: "rgba(30,60,114,0.08)" }}
-                  formatter={(v) => [`₹${v}`, "Amount"]}
-                />
-
-                <Bar
-                  dataKey="amount"
-                  fill="#1e3c72"
-                  radius={[8, 8, 0, 0]}
-                >
-                  <LabelList
-                    dataKey="amount"
-                    position="top"
-                    formatter={(v) => `₹${v}`}
-                  />
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
+          {/* BUDGET COMPARISON */}
+          <div className="viz-card">
+            <div className="card-head">
+              <FaChartLine />
+              <h3>Cash Flow Comparison</h3>
+            </div>
+            <div className="chart-holder">
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={comparisonData} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#eee" />
+                  <XAxis dataKey="name" axisLine={false} tickLine={false} />
+                  <YAxis axisLine={false} tickLine={false} />
+                  <Tooltip cursor={{ fill: '#f8fafc' }} />
+                  <Bar dataKey="amount" radius={[10, 10, 0, 0]}>
+                    <LabelList dataKey="amount" position="top" formatter={v => `₹${v}`} />
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
           </div>
         </div>
       </div>
