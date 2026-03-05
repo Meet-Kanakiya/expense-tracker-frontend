@@ -9,7 +9,7 @@ function LoginOTP({ setToken }) {
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const [timer, setTimer] = useState(30);
+  const [timer, setTimer] = useState(60);
 
   const navigate = useNavigate();
 
@@ -38,7 +38,7 @@ function LoginOTP({ setToken }) {
 
       setMessage("📩 OTP sent to your email. Please check Inbox or Spam folder.");
       setStep(2);
-      setTimer(30);
+      setTimer(60);
     } catch (err) {
       setMessage(err.response?.data?.message || "Login failed");
     } finally {
@@ -81,7 +81,7 @@ function LoginOTP({ setToken }) {
       setMessage(
         "📩 New OTP sent. Check Inbox or Spam folder."
       );
-      setTimer(30);
+      setTimer(60);
     } catch (err) {
       setMessage("Failed to resend OTP");
     } finally {
