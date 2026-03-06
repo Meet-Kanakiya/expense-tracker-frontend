@@ -17,7 +17,7 @@ export default function Register({ setToken }) {
   // 🔐 Password Strength Checker
   const checkPasswordStrength = (value) => {
     const strongRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^()_\-+=]).{8,}$/;
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
 
     if (strongRegex.test(value)) {
       setPasswordStrength("Strong");
