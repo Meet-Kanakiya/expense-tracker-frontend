@@ -1,3 +1,6 @@
+<p align="center">
+  <img src="assets/banner.png" alt="Expense Tracker Banner" width="100%">
+</p>
 # 💰 Expense Tracker System
 
 A modern **Full Stack Expense Tracker Web Application** that helps users manage daily expenses, analyze spending, and generate reports.
