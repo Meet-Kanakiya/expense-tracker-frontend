@@ -62,7 +62,23 @@ Database
 
 ## 📸 Screenshots
 
-> Screenshots will be added soon.
+### Login
+
+![Login](./screenshots/login.png)
+
+### Dashboard
+
+![Dashboard](./screenshots/dashboard.png)
+
+### Add Expense
+
+![Add_Expense](./screenshots/Add_Expense.png)
+
+### Analytics
+
+![Analytics](./screenshots/analytics.png)
+
+### 
 
 ---
 
