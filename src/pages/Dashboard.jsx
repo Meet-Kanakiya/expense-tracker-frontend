@@ -9,19 +9,6 @@ export default function Dashboard() {
   const [view, setView] = useState("home");
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const user = JSON.parse(localStorage.getItem("user"));
-
-  const getInitials = (name) => {
-    if (!name) return "?";
-
-    const words = name.trim().split(" ");
-
-    return words.length === 1
-      ? words[0][0].toUpperCase()
-      : (words[0][0] + words[words.length - 1][0]).toUpperCase();
-  };
-
-  const initials = getInitials(user?.name);
   return (
     <div className="flex h-screen bg-slate-50 overflow-hidden">
 
@@ -50,12 +37,6 @@ export default function Dashboard() {
             </h1>
           </div>
 
-          <div className="flex items-center gap-3">
-            <span className="hidden sm:block text-sm text-slate-500 font-medium">User Profile</span>
-            {/* <div className="h-9 w-9 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold border border-indigo-200">
-              {initials}
-            </div> */}
-          </div>
         </header>
 
         {/* Dynamic Page Content */}
