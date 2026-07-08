@@ -9,9 +9,25 @@ export default function Dashboard() {
   const [view, setView] = useState("home");
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  const getInitials = (name) => {
+    if (!name) return "?";
+
+    const words = name.trim().split(" ");
+
+    if (words.length === 1) {
+      return words[0][0].toUpperCase();
+    }
+
+    return (
+      words[0][0] + words[words.length - 1][0]
+    ).toUpperCase();
+  };
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  const initials = getInitials(user?.name);
   return (
     <div className="flex h-screen bg-slate-50 overflow-hidden">
-      
+
       {/* Sidebar Component */}
       <Sidebar
         setView={setView}
@@ -22,7 +38,7 @@ export default function Dashboard() {
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        
+
         {/* Top Header: Mobile (Visible) / Desktop (Refined) */}
         <header className="bg-white border-b border-slate-200 px-4 py-4 md:px-8 flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -36,11 +52,11 @@ export default function Dashboard() {
               {view === "home" ? "Overview" : view}
             </h1>
           </div>
-          
+
           <div className="flex items-center gap-3">
             <span className="hidden sm:block text-sm text-slate-500 font-medium">User Profile</span>
             <div className="h-9 w-9 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold border border-indigo-200">
-              MK
+              {initials}
             </div>
           </div>
         </header>
