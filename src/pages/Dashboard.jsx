@@ -52,9 +52,9 @@ export default function Dashboard() {
 
           <div className="flex items-center gap-3">
             <span className="hidden sm:block text-sm text-slate-500 font-medium">User Profile</span>
-            <div className="h-9 w-9 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold border border-indigo-200">
+            {/* <div className="h-9 w-9 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold border border-indigo-200">
               {initials}
-            </div>
+            </div> */}
           </div>
         </header>
 
