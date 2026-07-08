@@ -20,7 +20,8 @@ export default function Login({ setToken, setPage }) {
       });
 
       localStorage.setItem("token", res.data.token);
-
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+      
       if (setToken) setToken(res.data.token);
 
       setMessage("Login successful ✅");

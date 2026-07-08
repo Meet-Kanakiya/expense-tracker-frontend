@@ -9,21 +9,18 @@ export default function Dashboard() {
   const [view, setView] = useState("home");
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  const user = JSON.parse(localStorage.getItem("user"));
+
   const getInitials = (name) => {
     if (!name) return "?";
 
     const words = name.trim().split(" ");
 
-    if (words.length === 1) {
-      return words[0][0].toUpperCase();
-    }
-
-    return (
-      words[0][0] + words[words.length - 1][0]
-    ).toUpperCase();
+    return words.length === 1
+      ? words[0][0].toUpperCase()
+      : (words[0][0] + words[words.length - 1][0]).toUpperCase();
   };
 
-  const user = JSON.parse(localStorage.getItem("user"));
   const initials = getInitials(user?.name);
   return (
     <div className="flex h-screen bg-slate-50 overflow-hidden">
